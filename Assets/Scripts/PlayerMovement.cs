@@ -8,14 +8,14 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D _rb;
     private Vector2 _moveDirection;
-    private SpriteRenderer _rend;
     private Vector2 _mousePosition;
+    private Vector3 _newPosition;
+    private bool _upInput;
+    private bool _isInput = true;
     
-
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _rend = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -30,19 +30,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void InputProcess()
     {
-        float horizontalMove = Input.GetAxisRaw("Horizontal");
-        float verticalMove = Input.GetAxisRaw("Vertical");
+        float horizontalMove = 0;
+        float verticalMove = 0;
+        
+        if (_isInput)
+        {
+            horizontalMove = Input.GetAxisRaw("Horizontal");
+            verticalMove = Input.GetAxisRaw("Vertical");
+        }
 
-        _moveDirection = new Vector2(horizontalMove, verticalMove).normalized;
-        _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _moveDirection = new Vector2(x: horizontalMove, verticalMove).normalized;
     }
     
     // ReSharper disable Unity.PerformanceAnalysis
     private void Move()
     {
         _rb.velocity = new Vector2(_moveDirection.x * moveSpeed, _moveDirection.y * moveSpeed);
-
-        //Rotate sprite character
-        _rend.flipX = _mousePosition.x < _rb.position.x;
     }
+
+    public void UpInput()
+    {
+        _isInput = true;
+    }
+    
+    public void DownInput()
+    {
+        _isInput = false;
+    }
+    
 }

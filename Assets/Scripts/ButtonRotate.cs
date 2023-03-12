@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class ButtonRotate : MonoBehaviour
 {
-   [SerializeField] private bool toRight;
-   
-   private ArrowMove _arrow;
+   [SerializeField] protected bool toRight;
+
+   protected ArrowMove _arrow;
    
    private void OnMouseDown()
    {

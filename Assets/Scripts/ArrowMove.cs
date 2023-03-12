@@ -8,20 +8,19 @@ public class ArrowMove : MonoBehaviour
     [SerializeField] private float distance;
     [SerializeField] private bool horizontolDirection;
     private Rigidbody2D _rigidbody2D;
+    private bool _isStop;
 
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
-
-    private void Update()
+    
+    public void Stop()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            RotationTo(true);
-        }
+        _isStop = true;
+        SetMove(false);
     }
-
+    
     public void SetMove(bool canMove)
     {
         if (!canMove)
@@ -30,15 +29,18 @@ public class ArrowMove : MonoBehaviour
         }
         else
         {
-            if (horizontolDirection)
+            if (!_isStop)
             {
-                _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation 
-                                           | RigidbodyConstraints2D.FreezePositionY;
-            }
-            else
-            {
-                _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation 
-                                           | RigidbodyConstraints2D.FreezePositionX;
+                if (horizontolDirection)
+                {
+                    _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation
+                                               | RigidbodyConstraints2D.FreezePositionY;
+                }
+                else
+                {
+                    _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation
+                                               | RigidbodyConstraints2D.FreezePositionX;
+                }
             }
         }
     }
